@@ -122,7 +122,7 @@ INSERT INTO marque(id_marque, nom_marque) VALUES
 (9, 'Hugo Boss'),
 (10, 'Versace');
 
--- Parfums (30 parfums variés avec des noms connus de Sephora)
+-- Parfums
 -- Parfums Femme
 INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, photo, stock, volume_id, genre_id, marque_id) VALUES
 ('Coco Mademoiselle', 89.90, 'Un parfum oriental frais et moderne', 'Sephora', 'femme/coco_mademoiselle.png', 15, 2, 1, 1),
