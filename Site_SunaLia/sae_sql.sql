@@ -41,7 +41,7 @@ CREATE TABLE parfum (
    prix_parfum NUMERIC(6,2) DEFAULT 50.00,
    description TEXT,
    fournisseur VARCHAR(255),
-   photo VARCHAR(255) DEFAULT 'parfum_no_photo.png',
+   photo VARCHAR(255) DEFAULT 'no_photo.jpeg',
    stock INT DEFAULT 10,
    volume_id INT DEFAULT 1,
    genre_id INT DEFAULT 1,
