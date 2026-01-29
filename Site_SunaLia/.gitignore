@@ -55,10 +55,3 @@ test_*.xml
 # Migrations
 *.sqlite3
 db.sqlite3
-
-# ------------------------------
-# Git
-# ------------------------------
-# Exclure fichiers de configuration personnels
-*.env
-.env.*
