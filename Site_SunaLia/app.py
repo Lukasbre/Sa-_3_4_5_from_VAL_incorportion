@@ -22,6 +22,8 @@ from controllers.admin_dataviz import *
 from controllers.admin_commentaire import *
 from controllers.client_liste_envies import *
 
+# mysql --user=??? --password=??? --host=??? --database=bdd_sae
+
 app = Flask(__name__)
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
 
@@ -84,4 +86,6 @@ app.register_blueprint(admin_commentaire)
 
 
 if __name__ == '__main__':
-    app.run()
+    import os
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
