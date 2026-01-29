@@ -17,7 +17,17 @@ admin_article = Blueprint('admin_article', __name__,
 @admin_article.route('/admin/article/show')
 def show_article():
     mycursor = get_db().cursor()
-    sql = '''  requête admin_article_1
+    sql = '''
+        SELECT p.id_parfum      AS id_article
+             , p.nom_parfum     AS nom
+             , p.prix_parfum    AS prix
+             , p.stock
+             , p.photo          AS image
+             , m.id_marque      AS type_article_id
+             , m.nom_marque     AS libelle
+        FROM parfum p
+        LEFT JOIN marque m ON m.id_marque = p.marque_id
+        ORDER BY p.nom_parfum
     '''
     mycursor.execute(sql)
     articles = mycursor.fetchall()

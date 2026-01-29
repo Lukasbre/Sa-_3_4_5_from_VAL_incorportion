@@ -61,7 +61,7 @@ def fct_fixtures_load():
        prix_parfum NUMERIC(6,2) DEFAULT 50.00,
        description TEXT,
        fournisseur VARCHAR(255),
-       photo VARCHAR(255) DEFAULT 'parfum_no_photo.png',
+       photo VARCHAR(255) DEFAULT 'no_photo.jpeg',
        stock INT DEFAULT 10,
        volume_id INT DEFAULT 1,
        genre_id INT DEFAULT 1,
@@ -148,21 +148,21 @@ def fct_fixtures_load():
     # Insertion de quelques parfums pour démarrer
     cursor.execute('''
     INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, photo, stock, volume_id, genre_id, marque_id) VALUES
-    ('Coco Mademoiselle', 89.90, 'Un parfum oriental frais et moderne', 'Sephora', 'coco_mademoiselle.png', 15, 2, 1, 1),
-    ('J''adore', 95.00, 'Bouquet floral sensuel et féminin', 'Sephora', 'jadore.png', 20, 2, 1, 2),
-    ('La Vie Est Belle', 92.00, 'Parfum gourmand aux notes d''iris', 'Sephora', 'la_vie_est_belle.png', 18, 2, 1, 5),
-    ('Black Opium', 85.00, 'Parfum addictif au café et vanille', 'Sephora', 'black_opium.png', 25, 2, 1, 3),
-    ('Sauvage', 82.00, 'Frais, brut et noble', 'Sephora', 'sauvage.png', 30, 4, 2, 2),
-    ('Bleu de Chanel', 95.00, 'Boisé aromatique élégant', 'Sephora', 'bleu_chanel.png', 18, 4, 2, 1),
-    ('One Million', 79.00, 'Oriental épicé intense', 'Sephora', 'one_million.png', 25, 4, 2, 7),
-    ('Libre', 88.00, 'Floral lavande audacieux', 'Sephora', 'libre.png', 16, 2, 3, 3),
-    ('CK Everyone', 52.00, 'Frais et clean pour tous', 'Sephora', 'ck_everyone.png', 24, 4, 3, 8),
-    ('Baccarat Rouge 540', 250.00, 'Floral ambré lumineux', 'Sephora', 'baccarat_rouge.png', 4, 2, 3, 4),
-    ('Miss Dior', 88.00, 'Bouquet floral pétillant', 'Sephora', 'miss_dior.png', 12, 2, 1, 2),
-    ('Mon Guerlain', 94.00, 'Parfum oriental frais à la lavande', 'Sephora', 'mon_guerlain.png', 10, 2, 1, 4),
-    ('Chanel N°5', 105.00, 'Le parfum iconique par excellence', 'Sephora', 'chanel_5.png', 8, 4, 1, 1),
-    ('Y', 75.00, 'Frais et boisé pour homme moderne', 'Sephora', 'y_ysl.png', 20, 4, 2, 3),
-    ('Acqua di Giò', 85.00, 'Aquatique frais et masculin', 'Sephora', 'acqua_gio.png', 17, 4, 2, 6);
+    ('Coco Mademoiselle', 89.90, 'Un parfum oriental frais et moderne', 'Sephora', 'femme/coco_mademoiselle.png', 15, 2, 1, 1),
+    ('J''adore', 95.00, 'Bouquet floral sensuel et féminin', 'Sephora', 'femme/jadore.png', 20, 2, 1, 2),
+    ('La Vie Est Belle', 92.00, 'Parfum gourmand aux notes d''iris', 'Sephora', 'femme/la_vie_est_belle.png', 18, 2, 1, 5),
+    ('Black Opium', 85.00, 'Parfum addictif au café et vanille', 'Sephora', 'femme/black_opium.png', 25, 2, 1, 3),
+    ('Sauvage', 82.00, 'Frais, brut et noble', 'Sephora', 'homme/sauvage.png', 30, 4, 2, 2),
+    ('Bleu de Chanel', 95.00, 'Boisé aromatique élégant', 'Sephora', 'homme/bleu_chanel.png', 18, 4, 2, 1),
+    ('One Million', 79.00, 'Oriental épicé intense', 'Sephora', 'homme/one_million.png', 25, 4, 2, 7),
+    ('Libre', 88.00, 'Floral lavande audacieux', 'Sephora', 'mixte/libre.png', 16, 2, 3, 3),
+    ('CK Everyone', 52.00, 'Frais et clean pour tous', 'Sephora', 'mixte/ck_everyone.png', 24, 4, 3, 8),
+    ('Baccarat Rouge 540', 250.00, 'Floral ambré lumineux', 'Sephora', 'mixte/baccarat_rouge.png', 4, 2, 3, 4),
+    ('Miss Dior', 88.00, 'Bouquet floral pétillant', 'Sephora', 'femme/miss_dior.png', 12, 2, 1, 2),
+    ('Mon Guerlain', 94.00, 'Parfum oriental frais à la lavande', 'Sephora', 'femme/mon_guerlain.png', 10, 2, 1, 4),
+    ('Chanel N°5', 105.00, 'Le parfum iconique par excellence', 'Sephora', 'femme/chanel_5.png', 8, 4, 1, 1),
+    ('Y', 75.00, 'Frais et boisé pour homme moderne', 'Sephora', 'homme/y_ysl.png', 20, 4, 2, 3),
+    ('Acqua di Giò', 85.00, 'Aquatique frais et masculin', 'Sephora', 'homme/acqua_gio.png', 17, 4, 2, 6);
     ''')
 
     # Insertion des commandes

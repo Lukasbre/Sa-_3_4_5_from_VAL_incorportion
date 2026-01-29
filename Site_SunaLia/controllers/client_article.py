@@ -20,7 +20,7 @@ def client_article_show():
                , p.prix_parfum AS prix
                , p.stock AS stock
                , p.description
-               , p.photo
+               , p.photo AS image
                , v.nom_volume AS libelle_volume
                , g.nom_genre AS libelle_genre
                , m.nom_marque AS libelle_marque
@@ -68,7 +68,7 @@ def client_article_show():
                , p.nom_parfum AS nom
                , p.stock
                , p.id_parfum AS id_article
-               , p.photo
+               , p.photo AS image
                , v.nom_volume AS libelle_volume
                , v.id_volume
                , g.nom_genre AS libelle_genre
