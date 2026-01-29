@@ -1,0 +1,64 @@
+# ------------------------------
+# IDEs / éditeurs
+# ------------------------------
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------
+# Python
+# ------------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels
+venv/
+ENV/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Pip / setuptools
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Coverage / testing
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+.coverage.*
+.cache
+nosetests.xml
+test_*.xml
+*.cover
+*.py,cover
+
+# Migrations
+*.sqlite3
+db.sqlite3
+
+# ------------------------------
+# Git
+# ------------------------------
+# Exclure fichiers de configuration personnels
+*.env
+.env.*
