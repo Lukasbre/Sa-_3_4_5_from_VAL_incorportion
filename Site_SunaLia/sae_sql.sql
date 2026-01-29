@@ -125,40 +125,42 @@ INSERT INTO marque(id_marque, nom_marque) VALUES
 -- Parfums (30 parfums variés avec des noms connus de Sephora)
 -- Parfums Femme
 INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, photo, stock, volume_id, genre_id, marque_id) VALUES
-('Coco Mademoiselle', 89.90, 'Un parfum oriental frais et moderne', 'Sephora', 'coco_mademoiselle.png', 15, 2, 1, 1),
-('J''adore', 95.00, 'Bouquet floral sensuel et féminin', 'Sephora', 'jadore.png', 20, 2, 1, 2),
-('La Vie Est Belle', 92.00, 'Parfum gourmand aux notes d''iris', 'Sephora', 'la_vie_est_belle.png', 18, 2, 1, 5),
-('Black Opium', 85.00, 'Parfum addictif au café et vanille', 'Sephora', 'black_opium.png', 25, 2, 1, 3),
-('Miss Dior', 88.00, 'Bouquet floral pétillant', 'Sephora', 'miss_dior.png', 12, 2, 1, 2),
-('Mon Guerlain', 94.00, 'Parfum oriental frais à la lavande', 'Sephora', 'mon_guerlain.png', 10, 2, 1, 4),
-('Chanel N°5', 105.00, 'Le parfum iconique par excellence', 'Sephora', 'chanel_5.png', 8, 4, 1, 1),
-('Good Girl', 98.00, 'Parfum floral oriental sensuel', 'Sephora', 'good_girl.png', 14, 3, 1, 2),
-('Flowerbomb', 102.00, 'Explosion florale intense', 'Sephora', 'flowerbomb.png', 16, 2, 1, 7),
-('Idôle', 79.00, 'Parfum floral clean et moderne', 'Sephora', 'idole.png', 22, 2, 1, 5),
+('Coco Mademoiselle', 89.90, 'Un parfum oriental frais et moderne', 'Sephora', 'femme/coco_mademoiselle.png', 15, 2, 1, 1),
+('J''adore', 95.00, 'Bouquet floral sensuel et féminin', 'Sephora', 'femme/jadore.png', 20, 2, 1, 2),
+('La Vie Est Belle', 92.00, 'Parfum gourmand aux notes d''iris', 'Sephora', 'femme/la_vie_est_belle.png', 18, 2, 1, 5),
+('Black Opium', 85.00, 'Parfum addictif au café et vanille', 'Sephora', 'femme/black_opium.png', 25, 2, 1, 3),
+('Miss Dior', 88.00, 'Bouquet floral pétillant', 'Sephora', 'femme/miss_dior.png', 12, 2, 1, 2),
+('Mon Guerlain', 94.00, 'Parfum oriental frais à la lavande', 'Sephora', 'femme/mon_guerlain.png', 10, 2, 1, 4),
+('Chanel N°5', 105.00, 'Le parfum iconique par excellence', 'Sephora', 'femme/chanel_5.png', 8, 4, 1, 1),
+('Good Girl', 98.00, 'Parfum floral oriental sensuel', 'Sephora', 'femme/good_girl.png', 14, 3, 1, 2),
+('Flowerbomb', 102.00, 'Explosion florale intense', 'Sephora', 'femme/flowerbomb.png', 16, 2, 1, 7),
+('Idôle', 79.00, 'Parfum floral clean et moderne', 'Sephora', 'femme/idole.png', 22, 2, 1, 5),
 
 -- Parfums Homme
-('Sauvage', 82.00, 'Frais, brut et noble', 'Sephora', 'sauvage.png', 30, 4, 2, 2),
-('Bleu de Chanel', 95.00, 'Boisé aromatique élégant', 'Sephora', 'bleu_chanel.png', 18, 4, 2, 1),
-('Y', 75.00, 'Frais et boisé pour homme moderne', 'Sephora', 'y_ysl.png', 20, 4, 2, 3),
-('One Million', 79.00, 'Oriental épicé intense', 'Sephora', 'one_million.png', 25, 4, 2, 7),
-('Acqua di Giò', 85.00, 'Aquatique frais et masculin', 'Sephora', 'acqua_gio.png', 17, 4, 2, 6),
-('The One', 72.00, 'Oriental épicé raffiné', 'Sephora', 'the_one.png', 13, 4, 2, 2),
-('L''Homme', 68.00, 'Boisé aromatique sophistiqué', 'Sephora', 'lhomme_ysl.png', 19, 4, 2, 3),
-('CK One', 45.00, 'Frais et épicé iconique', 'Sephora', 'ck_one.png', 28, 4, 2, 8),
-('The Scent', 70.00, 'Cuir et boisé sensuel', 'Sephora', 'the_scent.png', 15, 2, 2, 9),
-('Dylan Blue', 77.00, 'Fougère aromatique méditerranéen', 'Sephora', 'dylan_blue.png', 12, 4, 2, 10),
+('Sauvage', 82.00, 'Frais, brut et noble', 'Sephora', 'homme/sauvage.png', 30, 4, 2, 2),
+('Bleu de Chanel', 95.00, 'Boisé aromatique élégant', 'Sephora', 'homme/bleu_chanel.png', 18, 4, 2, 1),
+('Y', 75.00, 'Frais et boisé pour homme moderne', 'Sephora', 'homme/y_ysl.png', 20, 4, 2, 3),
+('One Million', 79.00, 'Oriental épicé intense', 'Sephora', 'homme/one_million.png', 25, 4, 2, 7),
+('Acqua di Giò', 85.00, 'Aquatique frais et masculin', 'Sephora', 'homme/acqua_gio.png', 17, 4, 2, 6),
+('The One', 72.00, 'Oriental épicé raffiné', 'Sephora', 'homme/the_one.png', 13, 4, 2, 2),
+('L''Homme', 68.00, 'Boisé aromatique sophistiqué', 'Sephora', 'homme/lhomme_ysl.png', 19, 4, 2, 3),
+('CK One', 45.00, 'Frais et épicé iconique', 'Sephora', 'homme/ck_one.png', 28, 4, 2, 8),
+('The Scent', 70.00, 'Cuir et boisé sensuel', 'Sephora', 'homme/the_scent.png', 15, 2, 2, 9),
+('Dylan Blue', 77.00, 'Fougère aromatique méditerranéen', 'Sephora', 'homme/dylan_blue.png', 12, 4, 2, 10),
 
 -- Parfums Mixte
-('Santal 33', 195.00, 'Boisé épicé unisexe culte', 'Sephora', 'santal_33.png', 8, 2, 3, 1),
-('Libre', 88.00, 'Floral lavande audacieux', 'Sephora', 'libre.png', 16, 2, 3, 3),
-('Tobacco Vanille', 215.00, 'Oriental épicé luxueux', 'Sephora', 'tobacco_vanille.png', 5, 2, 3, 2),
-('CK Everyone', 52.00, 'Frais et clean pour tous', 'Sephora', 'ck_everyone.png', 24, 4, 3, 8),
-('Black Orchid', 125.00, 'Oriental floral mystérieux', 'Sephora', 'black_orchid.png', 9, 2, 3, 2),
-('Oud Wood', 205.00, 'Boisé oriental raffiné', 'Sephora', 'oud_wood.png', 6, 2, 3, 2),
-('Code Absolu', 89.00, 'Oriental boisé intense', 'Sephora', 'code_absolu.png', 11, 3, 3, 6),
-('Stronger With You', 76.00, 'Oriental épicé gourmand', 'Sephora', 'stronger_with_you.png', 18, 4, 3, 6),
-('Baccarat Rouge 540', 250.00, 'Floral ambré lumineux', 'Sephora', 'baccarat_rouge.png', 4, 2, 3, 4),
-('Eros Flame', 82.00, 'Oriental épicé passionné', 'Sephora', 'eros_flame.png', 13, 4, 3, 10);
+('Santal 33', 195.00, 'Boisé épicé unisexe culte', 'Sephora', 'mixte/santal_33.png', 8, 2, 3, 1),
+('Libre', 88.00, 'Floral lavande audacieux', 'Sephora', 'mixte/libre.png', 16, 2, 3, 3),
+('Tobacco Vanille', 215.00, 'Oriental épicé luxueux', 'Sephora', 'mixte/tobacco_vanille.png', 5, 2, 3, 2),
+('CK Everyone', 52.00, 'Frais et clean pour tous', 'Sephora', 'mixte/ck_everyone.png', 24, 4, 3, 8),
+('Black Orchid', 125.00, 'Oriental floral mystérieux', 'Sephora', 'mixte/black_orchid.png', 9, 2, 3, 2),
+('Oud Wood', 205.00, 'Boisé oriental raffiné', 'Sephora', 'mixte/oud_wood.png', 6, 2, 3, 2),
+('Code Absolu', 89.00, 'Oriental boisé intense', 'Sephora', 'mixte/code_absolu.png', 11, 3, 3, 6),
+('Stronger With You', 76.00, 'Oriental épicé gourmand', 'Sephora', 'mixte/stronger_with_you.png', 18, 4, 3, 6),
+('Baccarat Rouge 540', 250.00, 'Floral ambré lumineux', 'Sephora', 'mixte/baccarat_rouge.png', 4, 2, 3, 4),
+('Eros Flame', 82.00, 'Oriental épicé passionné', 'Sephora', 'mixte/eros_flame.png', 13, 4, 3, 10);
+
+-- Parfums Enfant
 
 -- États des commandes
 INSERT INTO etat(libelle) VALUES
