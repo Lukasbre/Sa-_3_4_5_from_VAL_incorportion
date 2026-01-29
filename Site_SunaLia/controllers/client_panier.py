@@ -6,9 +6,7 @@ from datetime import datetime
 
 from connexion_db import get_db
 
-client_panier = Blueprint('client_panier', __name__,
-                          template_folder='templates')
-
+client_panier = Blueprint('client_panier', __name__, template_folder='templates')
 
 @client_panier.route('/client/panier/add', methods=['POST'])
 def client_panier_add():
@@ -217,14 +215,10 @@ def client_panier_filtre():
     filter_types = request.form.getlist('filter_types', None)
 
     # Mise en session des variables de filtre
-    if filter_word:
-        session['filter_word'] = filter_word
-    if filter_prix_min:
-        session['filter_prix_min'] = filter_prix_min
-    if filter_prix_max:
-        session['filter_prix_max'] = filter_prix_max
-    if filter_types:
-        session['filter_types'] = filter_types
+    session['filter_word'] = filter_word
+    session['filter_prix_min'] = filter_prix_min
+    session['filter_prix_max'] = filter_prix_max
+    session['filter_types'] = filter_types
 
     return redirect('/client/article/show')
 

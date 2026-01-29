@@ -64,6 +64,7 @@ CREATE TABLE parfum (
     FOREIGN KEY (genre_id) REFERENCES genre(id_genre),
     FOREIGN KEY (volume_id) REFERENCES volume(id_volume)
 );
+
 CREATE TABLE commande (
     id_commande INT AUTO_INCREMENT PRIMARY KEY,
     date_achat DATETIME,
@@ -72,6 +73,7 @@ CREATE TABLE commande (
     FOREIGN KEY (etat_id) REFERENCES etat(id_etat),
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id_utilisateur)
 );
+
 CREATE TABLE ligne_commande (
     commande_id INT,
     parfum_id INT,
@@ -111,7 +113,8 @@ INSERT INTO volume(id_volume, nom_volume) VALUES
 INSERT INTO genre(id_genre, nom_genre) VALUES
 (1, 'Femme'),
 (2, 'Homme'),
-(3, 'Mixte');
+(3, 'Mixte'),
+(4,'Enfant');
 
 -- Pyramide Olfactive
 INSERT INTO pyramide_olfactive (id_pyramide_olfactive, note_de_tete, note_de_coeur, note_de_fond) VALUES
@@ -163,7 +166,6 @@ INSERT INTO type_parfum (id_type_parfum, type_parfum_libelle) VALUES
 (8, 'Fruitée'),
 (9, 'Aromatique');
 
-
 -- Parfums
 INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, marque, photo, stock, pyramide_olfactive_id, type_parfum_id, genre_id, volume_id) VALUES
 -- Femme
@@ -203,9 +205,9 @@ INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, marque, ph
 ('Eros Flame', 82.00, 'Une fragrance intense et passionnée, inspirée par la force et l’émotion.', 'Shein', 'Versace', 'mixte/eros_flame.png', 13, 30, 6, 3, 2),
 
 -- Enfant
-('Parfum Cars Supreme', 120.0, 'Essence allinol et sans-plomb 95', 'Staralexis', 'Disney', 'enfant/cars.png', 120, 31, 8, 3, 2),
-('Essence sueur de Naruto', 3000.0, 'Rasengan et Ninjutsu', 'Mie Caline', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 3, 2),
-('Eau de toilette de Peppa Pig', 1400.0, 'A l''odeur de vos bonnes tranches de lard', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 3, 2);
+('Parfum Cars Supreme', 120.0, 'Essence allinol et sans-plomb 95', 'Staralexis', 'Disney', 'enfant/cars.png', 120, 31, 8, 4, 2),
+('Essence sueur de Naruto', 35.0, 'Rasengan et Ninjutsu', 'Mie Caline', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 4, 2),
+('Eau de toilette de Peppa Pig', 14.0, 'A l''odeur de vos bonnes tranches de lard', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 4, 2);
 
 -- États des commandes
 INSERT INTO etat(id_etat, libelle) VALUES
