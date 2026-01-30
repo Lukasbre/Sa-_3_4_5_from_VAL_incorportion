@@ -24,8 +24,3 @@ Ce projet vise à mettre en pratique :
 - **Base de données** : SQL (SQLite / MySQL selon configuration)  
 - **Front-end** : HTML / CSS (éventuellement Bootstrap)  
 - **Gestion de version** : Git & GitHub  
-
-
-
-
-[Aller vous branler dessus](https://sa-345fromvalincorportion-production.up.railway.app/)
