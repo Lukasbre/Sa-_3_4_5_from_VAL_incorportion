@@ -1,5 +1,7 @@
 flask
 gunicorn
-mysqlclient
+pymysql
 python-dotenv
-
+cryptography
+cffi
+pycparser
