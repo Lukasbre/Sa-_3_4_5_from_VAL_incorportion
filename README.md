@@ -21,6 +21,6 @@ Ce projet vise à mettre en pratique :
 
 - **Langage** : Python  
 - **Framework web** : Flask  
-- **Base de données** : SQL (SQLite / MySQL selon configuration)  
-- **Front-end** : HTML / CSS (éventuellement Bootstrap)  
+- **Base de données** : MySQL
+- **Front-end** : HTML / CSS / Bootstrap
 - **Gestion de version** : Git & GitHub  
