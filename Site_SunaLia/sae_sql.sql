@@ -205,9 +205,9 @@ INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, marque, ph
 ('Eros Flame', 82.00, 'Une fragrance intense et passionnée, inspirée par la force et l’émotion.', 'Shein', 'Versace', 'mixte/eros_flame.png', 13, 30, 6, 3, 2),
 
 -- Enfant
-('Parfum Cars Supreme', 120.0, 'Essence allinol et sans-plomb 95', 'Staralexis', 'Disney', 'enfant/cars.png', 120, 31, 8, 4, 2),
-('Essence sueur de Naruto', 35.0, 'Rasengan et Ninjutsu', 'Mie Caline', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 4, 2),
-('Eau de toilette de Peppa Pig', 14.0, 'A l''odeur de vos bonnes tranches de lard', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 4, 2);
+('Parfum Cars', 12.0, 'Fraîche et vrombissante', 'Action', 'Disney', 'enfant/cars.png', 120, 31, 8, 4, 2),
+('Eau de toilette Naruto', 15.0, 'Fort et Rasengan', 'Action', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 4, 2),
+('Eau de toilette Peppa Pig', 14.0, 'Doux et pétillant', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 4, 2);
 
 -- États des commandes
 INSERT INTO etat(id_etat, libelle) VALUES
