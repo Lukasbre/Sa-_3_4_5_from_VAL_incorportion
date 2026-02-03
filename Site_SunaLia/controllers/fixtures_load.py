@@ -3,6 +3,7 @@ from connexion_db import get_db
 
 fixtures_load = Blueprint('fixtures_load', __name__, template_folder='templates')
 
+
 @fixtures_load.route('/base/init')
 def fct_fixtures_load():
     db = get_db()
@@ -26,14 +27,14 @@ def fct_fixtures_load():
     CREATE TABLE volume (
         id_volume INT AUTO_INCREMENT PRIMARY KEY,
         nom_volume VARCHAR(255)
-    ) DEFAULT CHARSET=utf8;
+    );
     """)
 
     cursor.execute("""
     CREATE TABLE genre (
         id_genre INT AUTO_INCREMENT PRIMARY KEY,
         nom_genre VARCHAR(255)
-    ) DEFAULT CHARSET=utf8;
+    );
     """)
 
     cursor.execute("""
@@ -44,22 +45,22 @@ def fct_fixtures_load():
         nom VARCHAR(255),
         password VARCHAR(255),
         role VARCHAR(255),
-        est_actif TINYINT(1)
-    ) DEFAULT CHARSET=utf8;
+        est_actif TINYINT
+    );
     """)
 
     cursor.execute("""
     CREATE TABLE etat (
         id_etat INT AUTO_INCREMENT PRIMARY KEY,
         libelle VARCHAR(255)
-    ) DEFAULT CHARSET=utf8;
+    );
     """)
 
     cursor.execute("""
     CREATE TABLE type_parfum (
         id_type_parfum INT AUTO_INCREMENT PRIMARY KEY,
         type_parfum_libelle VARCHAR(255)
-    ) DEFAULT CHARSET=utf8;
+    );
     """)
 
     cursor.execute("""
@@ -68,7 +69,7 @@ def fct_fixtures_load():
         note_de_tete VARCHAR(255),
         note_de_coeur VARCHAR(255),
         note_de_fond VARCHAR(255)
-    ) DEFAULT CHARSET=utf8;
+    );
     """)
 
     cursor.execute("""
@@ -79,17 +80,17 @@ def fct_fixtures_load():
         description TEXT,
         fournisseur VARCHAR(255),
         marque VARCHAR(255),
-        photo VARCHAR(255) DEFAULT 'no_photo.jpeg',
-        stock INT DEFAULT 10,
+        photo VARCHAR(255),
+        stock INT,
         pyramide_olfactive_id INT,
         type_parfum_id INT,
         genre_id INT,
         volume_id INT,
-        FOREIGN KEY(pyramide_olfactive_id) REFERENCES pyramide_olfactive(id_pyramide_olfactive),
-        FOREIGN KEY(type_parfum_id) REFERENCES type_parfum(id_type_parfum),
-        FOREIGN KEY(genre_id) REFERENCES genre(id_genre),
-        FOREIGN KEY(volume_id) REFERENCES volume(id_volume)
-    ) DEFAULT CHARSET=utf8;
+        FOREIGN KEY (pyramide_olfactive_id) REFERENCES pyramide_olfactive(id_pyramide_olfactive),
+        FOREIGN KEY (type_parfum_id) REFERENCES type_parfum(id_type_parfum),
+        FOREIGN KEY (genre_id) REFERENCES genre(id_genre),
+        FOREIGN KEY (volume_id) REFERENCES volume(id_volume)
+    );
     """)
 
     cursor.execute("""
@@ -98,9 +99,9 @@ def fct_fixtures_load():
         date_achat DATETIME,
         etat_id INT,
         utilisateur_id INT,
-        FOREIGN KEY(etat_id) REFERENCES etat(id_etat),
-        FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur)
-    ) DEFAULT CHARSET=utf8;
+        FOREIGN KEY (etat_id) REFERENCES etat(id_etat),
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id_utilisateur)
+    );
     """)
 
     cursor.execute("""
@@ -109,10 +110,10 @@ def fct_fixtures_load():
         parfum_id INT,
         prix DECIMAL(6,2),
         quantite INT,
-        PRIMARY KEY(commande_id, parfum_id),
-        FOREIGN KEY(commande_id) REFERENCES commande(id_commande),
-        FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum)
-    ) DEFAULT CHARSET=utf8;
+        PRIMARY KEY (parfum_id, commande_id),
+        FOREIGN KEY (parfum_id) REFERENCES parfum(id_parfum),
+        FOREIGN KEY (commande_id) REFERENCES commande(id_commande)
+    );
     """)
 
     cursor.execute("""
@@ -121,68 +122,108 @@ def fct_fixtures_load():
         utilisateur_id INT,
         quantite INT,
         date_ajout DATETIME,
-        PRIMARY KEY(parfum_id, utilisateur_id),
-        FOREIGN KEY(parfum_id) REFERENCES parfum(id_parfum),
-        FOREIGN KEY(utilisateur_id) REFERENCES utilisateur(id_utilisateur)
-    ) DEFAULT CHARSET=utf8;
+        PRIMARY KEY (parfum_id, utilisateur_id),
+        FOREIGN KEY (parfum_id) REFERENCES parfum(id_parfum),
+        FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id_utilisateur)
+    );
     """)
 
     db.commit()
 
     # --- Insertions ---
+
+    # Utilisateurs - IMPORTANT: Ces hash doivent être identiques
+    # admin/admin, client/client, client2/client2
     cursor.execute("""
-    INSERT INTO utilisateur(login,email,password,role,nom,est_actif) VALUES
-    ('admin','admin@admin.fr','pbkdf2:sha256:1000000$HPCg1rfTeJRSDofA$e27299f5f572d238498ad29538716e4c88c8d3cd41014931df1f7addb9cbe403','ROLE_admin','admin',1),
-    ('client','client@client.fr','pbkdf2:sha256:1000000$AslM2zuUKE4HC8wt$82bbe00a8fd2e970b9a5b539e89f5faf0561071f6268d04df40f5ddadc9401b2','ROLE_client','client',1),
-    ('client2','client2@client2.fr','pbkdf2:sha256:1000000$0Ml0yKn01o8TNkHR$86aef9564ad03b4e5a967e0177f6d1c7dc345a44a32d9aca8dda6b052d804bb5','ROLE_client','client2',1);
+    INSERT INTO utilisateur(id_utilisateur, login, email, password, role, nom, est_actif) VALUES
+    (1, 'admin', 'admin@admin.fr', 'pbkdf2:sha256:1000000$HPCg1rfTeJRSDofA$e27299f5f572d238498ad29538716e4c88c8d3cd41014931df1f7addb9cbe403', 'ROLE_admin', 'admin', 1),
+    (2, 'client', 'client@client.fr', 'pbkdf2:sha256:1000000$AslM2zuUKE4HC8wt$82bbe00a8fd2e970b9a5b539e89f5faf0561071f6268d04df40f5ddadc9401b2', 'ROLE_client', 'client', 1),
+    (3, 'client2', 'client2@client2.fr', 'pbkdf2:sha256:1000000$0Ml0yKn01o8TNkHR$86aef9564ad03b4e5a967e0177f6d1c7dc345a44a32d9aca8dda6b052d804bb5', 'ROLE_client', 'client2', 1);
     """)
 
-    cursor.execute("INSERT INTO volume(nom_volume) VALUES ('30ml'),('50ml'),('75ml'),('100ml'),('150ml');")
-    cursor.execute("INSERT INTO genre(nom_genre) VALUES ('Femme'),('Homme'),('Mixte'),('Enfant');")
-    cursor.execute("INSERT INTO etat(libelle) VALUES ('en cours de traitement'), ('expédié'), ('validé'), ('en attente');")
-    cursor.execute("INSERT INTO type_parfum(type_parfum_libelle) VALUES ('Floral'),('Boisé'),('Oriental'),('Frais'),('Gourmand'),('Épicé'),('Ambré'),('Fruitée'),('Aromatique');")
+    # Catalogues de référence
+    cursor.execute("""
+    INSERT INTO volume(id_volume, nom_volume) VALUES 
+    (1, '30ml'), 
+    (2, '50ml'), 
+    (3, '75ml'), 
+    (4, '100ml'), 
+    (5, '150ml');
+    """)
+
+    cursor.execute("""
+    INSERT INTO genre(id_genre, nom_genre) VALUES 
+    (1, 'Femme'), 
+    (2, 'Homme'), 
+    (3, 'Mixte'), 
+    (4, 'Enfant');
+    """)
+
+    # États des commandes
+    cursor.execute("""
+    INSERT INTO etat(id_etat, libelle) VALUES 
+    (1, 'en cours de traitement'), 
+    (2, 'expédié'), 
+    (3, 'validé'), 
+    (4, 'en attente');
+    """)
+
+    # Type parfum
+    cursor.execute("""
+    INSERT INTO type_parfum(id_type_parfum, type_parfum_libelle) VALUES 
+    (1, 'Floral'), 
+    (2, 'Boisé'), 
+    (3, 'Oriental'), 
+    (4, 'Frais'), 
+    (5, 'Gourmand'), 
+    (6, 'Épicé'), 
+    (7, 'Ambré'), 
+    (8, 'Fruitée'), 
+    (9, 'Aromatique');
+    """)
 
     # Pyramides olfactives
     cursor.execute("""
-    INSERT INTO pyramide_olfactive(note_de_tete,note_de_coeur,note_de_fond) VALUES
-    ('Agrumes','Rose','Patchouli'),
-    ('Bergamote','Fleurs blanches','Musc'),
-    ('Poire','Iris','Vanille'),
-    ('Poivre rose','Fleur d''oranger','Café'),
-    ('Mandarine','Rose','Musc'),
-    ('Lavande','Jasmin','Vanille'),
-    ('Aldéhydes','Rose','Santal'),
-    ('Amande','Tubéreuse','Cacao'),
-    ('Thé','Freesia','Patchouli'),
-    ('Bergamote','Rose','Musc'),
-    ('Poivre','Lavande','Ambroxan'),
-    ('Citron','Encens','Bois'),
-    ('Gingembre','Sauge','Cèdre'),
-    ('Menthe','Épices','Cuir'),
-    ('Notes marines','Jasmin','Musc'),
-    ('Pamplemousse','Cardamome','Tabac'),
-    ('Citron','Violette','Vétiver'),
-    ('Agrumes','Thé vert','Musc'),
-    ('Gingembre','Maninka','Cuir'),
-    ('Bergamote','Ambrox','Encens'),
-    ('Violette','Bois','Cuir'),
-    ('Lavande','Fleur d''oranger','Vanille'),
-    ('Épices','Tabac','Vanille'),
-    ('Agrumes','Fleurs','Bois'),
-    ('Truffe','Orchidée','Patchouli'),
-    ('Poivre','Oud','Ambre'),
-    ('Mandarine','Fleur d''oranger','Vanille'),
-    ('Poivre rose','Châtaigne','Vanille'),
-    ('Safran','Ambre gris','Bois'),
-    ('Citron','Géranium','Bois'),
-    ('Fruits rouges','Bonbon','Vanille'),
-    ('Agrumes','Sucre','Musc'),
-    ('Fruits','Fleurs','Vanille');
+    INSERT INTO pyramide_olfactive(id_pyramide_olfactive, note_de_tete, note_de_coeur, note_de_fond) VALUES
+    (1, 'Agrumes', 'Rose', 'Patchouli'),
+    (2, 'Bergamote', 'Fleurs blanches', 'Musc'),
+    (3, 'Poire', 'Iris', 'Vanille'),
+    (4, 'Poivre rose', 'Fleur d''oranger', 'Café'),
+    (5, 'Mandarine', 'Rose', 'Musc'),
+    (6, 'Lavande', 'Jasmin', 'Vanille'),
+    (7, 'Aldéhydes', 'Rose', 'Santal'),
+    (8, 'Amande', 'Tubéreuse', 'Cacao'),
+    (9, 'Thé', 'Freesia', 'Patchouli'),
+    (10, 'Bergamote', 'Rose', 'Musc'),
+    (11, 'Poivre', 'Lavande', 'Ambroxan'),
+    (12, 'Citron', 'Encens', 'Bois'),
+    (13, 'Gingembre', 'Sauge', 'Cèdre'),
+    (14, 'Menthe', 'Épices', 'Cuir'),
+    (15, 'Notes marines', 'Jasmin', 'Musc'),
+    (16, 'Pamplemousse', 'Cardamome', 'Tabac'),
+    (17, 'Citron', 'Violette', 'Vétiver'),
+    (18, 'Agrumes', 'Thé vert', 'Musc'),
+    (19, 'Gingembre', 'Maninka', 'Cuir'),
+    (20, 'Bergamote', 'Ambrox', 'Encens'),
+    (21, 'Violette', 'Bois', 'Cuir'),
+    (22, 'Lavande', 'Fleur d''oranger', 'Vanille'),
+    (23, 'Épices', 'Tabac', 'Vanille'),
+    (24, 'Agrumes', 'Fleurs', 'Bois'),
+    (25, 'Truffe', 'Orchidée', 'Patchouli'),
+    (26, 'Poivre', 'Oud', 'Ambre'),
+    (27, 'Mandarine', 'Fleur d''oranger', 'Vanille'),
+    (28, 'Poivre rose', 'Châtaigne', 'Vanille'),
+    (29, 'Safran', 'Ambre gris', 'Bois'),
+    (30, 'Citron', 'Géranium', 'Bois'),
+    (31, 'Fruits rouges', 'Bonbon', 'Vanille'),
+    (32, 'Agrumes', 'Sucre', 'Musc'),
+    (33, 'Fruits', 'Fleurs', 'Vanille');
     """)
 
-    # TOUS LES PARFUMS
+    # Parfums
     cursor.execute("""
     INSERT INTO parfum(nom_parfum, prix_parfum, description, fournisseur, marque, photo, stock, pyramide_olfactive_id, type_parfum_id, genre_id, volume_id) VALUES
+    -- Femme
     ('Coco Mademoiselle', 89.90, 'Une fragrance élégante et moderne, pensée pour une femme indépendante et affirmée.', 'Sephora', 'Chanel', 'femme/coco_mademoiselle.png', 15, 1, 7, 1, 2),
     ('J''adore', 95.00, 'Un parfum emblématique qui incarne la féminité, la sophistication et le luxe.', 'Sephora', 'Dior', 'femme/jadore.png', 20, 2, 1, 1, 2),
     ('La Vie Est Belle', 92.00, 'Une création lumineuse et raffinée, symbole de joie, de liberté et de bonheur.', 'parfum collection', 'Lancôme', 'femme/la_vie_est_belle.png', 18, 3, 5, 1, 2),
@@ -193,6 +234,7 @@ def fct_fixtures_load():
     ('Good Girl', 98.00, 'Une fragrance contrastée et moderne, incarnant la dualité et la confiance.', 'Guerlain', 'Carolina Herrera', 'femme/good_girl.png', 14, 8, 5, 1, 2),
     ('Flowerbomb', 102.00, 'Un parfum intense et sophistiqué, conçu pour laisser une impression durable.', 'Parfum en gros', 'Viktor&Rolf', 'femme/flowerbomb.png', 16, 9, 1, 1, 2),
     ('Idôle', 79.00, 'Une fragrance contemporaine qui célèbre la détermination et l''ambition féminine.', 'Parfum en gros', 'Lancôme', 'femme/idole.png', 22, 10, 1, 1, 2),
+    -- Homme
     ('Sauvage', 82.00, 'Un parfum puissant et moderne, inspiré par la liberté et l''aventure.', 'Parfum grossiste', 'Dior', 'homme/sauvage.png', 30, 11, 4, 2, 2),
     ('Bleu de Chanel', 95.00, 'Une fragrance élégante et intemporelle, pensée pour un homme sûr de lui.', 'Parfum grossiste', 'Chanel', 'homme/bleu_chanel.png', 18, 12, 2, 2, 2),
     ('Y', 75.00, 'Un parfum dynamique et contemporain, symbole de réussite et de créativité.', 'Kcosmetique', 'Yves Saint Laurent', 'homme/y_ysl.png', 20, 13, 9, 2, 2),
@@ -200,9 +242,10 @@ def fct_fixtures_load():
     ('Acqua di Giò', 85.00, 'Un parfum frais et élégant, évoquant la liberté et l''harmonie.', 'Kcosmetique', 'Giorgio Armani', 'homme/acqua_gio.png', 17, 15, 4, 2, 2),
     ('The One', 72.00, 'Une fragrance sophistiquée et élégante, parfaite pour un style raffiné.', 'Maison des fragrances', 'Dolce & Gabbana', 'homme/the_one.png', 13, 16, 3, 2, 2),
     ('L''Homme', 68.00, 'Un parfum moderne et distingué, incarnant l''élégance masculine.', 'Maison des fragrances', 'Yves Saint Laurent', 'homme/lhomme_ysl.png', 19, 17, 2, 2, 2),
-    ('CK One', 45.00, 'Une fragrance iconique et universelle, pensée pour un usage quotidien.', 'Eleven parfum', 'Calvin Klein', 'homme/ck_one.png', 28, 18, 4, 2, 2),
-    ('The Scent', 70.00, 'Un parfum intense et séduisant, idéal pour une personnalité affirmée.', 'Eleven parfum', 'Hugo Boss', 'homme/the_scent.png', 15, 19, 6, 2, 2),
-    ('Dylan Blue', 77.00, 'Une fragrance moderne et élégante, inspirée par la force et le caractère.', 'Eleven parfum', 'Versace', 'homme/dylan_blue.png', 12, 20, 9, 2, 2),
+    ('CK One', 45.00, 'Une fragrance iconique et universelle, pensée pour un usage quotidien.', 'Eleven parfum ', 'Calvin Klein', 'homme/ck_one.png', 28, 18, 4, 2, 2),
+    ('The Scent', 70.00, 'Un parfum intense et séduisant, idéal pour une personnalité affirmée.', 'Eleven parfum ', 'Hugo Boss', 'homme/the_scent.png', 15, 19, 6, 2, 2),
+    ('Dylan Blue', 77.00, 'Une fragrance moderne et élégante, inspirée par la force et le caractère.', 'Eleven parfum ', 'Versace', 'homme/dylan_blue.png', 12, 20, 9, 2, 2),
+    -- Mixte
     ('Santal 33', 195.00, 'Un parfum de caractère au style contemporain, apprécié pour son originalité.', 'Alibaba', 'Le Labo', 'mixte/santal_33.png', 8, 21, 2, 3, 2),
     ('Libre', 88.00, 'Une fragrance audacieuse et moderne, symbole de liberté et d''indépendance.', 'Robertet', 'Yves Saint Laurent', 'mixte/libre.png', 10, 22, 3, 3, 2),
     ('Tobacco Vanille', 215.00, 'Un parfum luxueux et intense, conçu pour une présence affirmée.', 'Robertet', 'Tom Ford', 'mixte/tobacco_vanille.png', 5, 23, 3, 3, 2),
@@ -213,22 +256,23 @@ def fct_fixtures_load():
     ('Stronger With You', 76.00, 'Une fragrance contemporaine et élégante, symbole de confiance et de lien.', 'News parfums', 'Giorgio Armani', 'mixte/stronger_with_you.png', 18, 28, 5, 3, 2),
     ('Baccarat Rouge 540', 250.00, 'Un parfum d''exception, reconnu pour son raffinement et son prestige.', 'News parfums', 'Maison Francis Kurkdjian', 'mixte/baccarat_rouge.png', 4, 29, 7, 3, 2),
     ('Eros Flame', 82.00, 'Une fragrance intense et passionnée, inspirée par la force et l''émotion.', 'Shein', 'Versace', 'mixte/eros_flame.png', 13, 30, 6, 3, 2),
-    ('Parfum Cars Supreme', 120.00, 'Essence allinol et sans-plomb 95', 'Staralexis', 'Disney', 'enfant/cars.png', 120, 31, 8, 4, 2),
-    ('Essence sueur de Naruto', 35.00, 'Rasengan et Ninjutsu', 'Mie Caline', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 4, 2),
-    ('Eau de toilette de Peppa Pig', 14.00, 'A l''odeur de vos bonnes tranches de lard', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 4, 2);
+    -- Enfant
+    ('Parfum Cars', 12.00, 'Fraîche et vrombissante', 'Action', 'Disney', 'enfant/cars.png', 120, 31, 8, 4, 2),
+    ('Eau de toilette Naruto', 15.00, 'Fort et Rasengan', 'Action', 'Naruto', 'enfant/naruto.png', 3, 32, 9, 4, 2),
+    ('Eau de toilette Peppa Pig', 14.00, 'Doux et pétillant', 'Jouet Club', 'Peppa Pig', 'enfant/peppa_pig.png', 3, 33, 8, 4, 2);
     """)
 
     # Commandes
     cursor.execute("""
-    INSERT INTO commande(date_achat, etat_id, utilisateur_id) VALUES
-    ('2024-01-15 10:30:00', 2, 3),
-    ('2024-01-16 14:20:00', 1, 3),
-    ('2024-01-18 09:15:00', 2, 2),
-    ('2024-01-20 16:45:00', 1, 2),
-    ('2024-01-22 11:30:00', 3, 2),
-    ('2024-01-24 13:00:00', 1, 2),
-    ('2024-01-25 15:30:00', 1, 3),
-    ('2024-01-26 10:00:00', 2, 3);
+    INSERT INTO commande(id_commande, date_achat, etat_id, utilisateur_id) VALUES
+    (1, '2024-01-15 10:30:00', 2, 3),
+    (2, '2024-01-16 14:20:00', 1, 3),
+    (3, '2024-01-18 09:15:00', 2, 2),
+    (4, '2024-01-20 16:45:00', 1, 2),
+    (5, '2024-01-22 11:30:00', 3, 2),
+    (6, '2024-01-24 13:00:00', 1, 2),
+    (7, '2024-01-25 15:30:00', 1, 3),
+    (8, '2024-01-26 10:00:00', 2, 3);
     """)
 
     # Lignes de commandes
