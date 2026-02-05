@@ -8,6 +8,7 @@ Le site est accessible [ici](https://sa-345fromvalincorportion-production.up.rai
 
 **Suna Lia** est un site de e-commerce développé en Python avec le framework Flask, utilisant une base de données SQL.  
 Le site permet de présenter des produits, de les consulter et de gérer les données associées (utilisateurs, produits, commandes, etc.).
+Il permet aussi la gestion des comptes clients et admins.
 
 Ce projet vise à mettre en pratique :
 - le développement web back-end,
@@ -24,3 +25,5 @@ Ce projet vise à mettre en pratique :
 - **Base de données** : MySQL
 - **Front-end** : HTML / CSS / Bootstrap
 - **Gestion de version** : Git & GitHub  
+
+---
