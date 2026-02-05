@@ -4,7 +4,7 @@ Projet réalisé dans le cadre des **SAE S1.03, S1.04 et S1.05**.
 
 Le site est accessible [ici](https://sa-345fromvalincorportion-production.up.railway.app/).
 
-## 📌 Présentation du projet
+## Présentation du projet
 
 **Suna Lia** est un site de e-commerce développé en Python avec le framework Flask, utilisant une base de données SQL.  
 Le site permet de présenter des produits, de les consulter et de gérer les données associées (utilisateurs, produits, commandes, etc.).
@@ -17,7 +17,7 @@ Ce projet vise à mettre en pratique :
 
 ---
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 - **Langage** : Python  
 - **Framework web** : Flask  
