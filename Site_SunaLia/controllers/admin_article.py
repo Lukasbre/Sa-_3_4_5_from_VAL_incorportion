@@ -23,10 +23,9 @@ def show_article():
              , p.prix_parfum    AS prix
              , p.stock
              , p.photo          AS image
-             , m.id_marque      AS type_article_id
-             , m.nom_marque     AS libelle
+             , p.marque         AS libelle
+             , p.type_parfum_id AS type_article_id
         FROM parfum p
-        LEFT JOIN marque m ON m.id_marque = p.marque_id
         ORDER BY p.nom_parfum
     '''
     mycursor.execute(sql)
@@ -37,12 +36,10 @@ def show_article():
 @admin_article.route('/admin/article/add', methods=['GET'])
 def add_article():
     mycursor = get_db().cursor()
-
-    return render_template('admin/article/add_article.html'
-                           #,types_article=type_article,
-                           #,couleurs=colors
-                           #,tailles=tailles
-                            )
+    sql = "SELECT id_type_parfum AS id_type_article, type_parfum_libelle AS libelle FROM type_parfum ORDER BY type_parfum_libelle"
+    mycursor.execute(sql)
+    types_article = mycursor.fetchall()
+    return render_template('admin/article/add_article.html', types_article=types_article)
 
 
 @admin_article.route('/admin/article/add', methods=['POST'])
@@ -53,87 +50,79 @@ def valid_add_article():
     type_article_id = request.form.get('type_article_id', '')
     prix = request.form.get('prix', '')
     description = request.form.get('description', '')
+    marque = request.form.get('marque', '')
+    stock = request.form.get('stock', 0)
     image = request.files.get('image', '')
 
-    if image:
-        filename = 'img_upload'+ str(int(2147483647 * random())) + '.png'
+    if image and image.filename:
+        filename = 'img_upload' + str(int(2147483647 * random())) + '.png'
         image.save(os.path.join('static/images/', filename))
     else:
-        print("erreur")
-        filename=None
+        filename = None
 
-    sql = '''  requête admin_article_2 '''
-
-    tuple_add = (nom, filename, prix, type_article_id, description)
-    print(tuple_add)
+    sql = '''
+        INSERT INTO parfum(nom_parfum, photo, prix_parfum, type_parfum_id, description, marque, stock)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    '''
+    tuple_add = (nom, filename, prix, type_article_id, description, marque, stock)
     mycursor.execute(sql, tuple_add)
     get_db().commit()
 
-    print(u'article ajouté , nom: ', nom, ' - type_article:', type_article_id, ' - prix:', prix,
-          ' - description:', description, ' - image:', image)
-    message = u'article ajouté , nom:' + nom + '- type_article:' + type_article_id + ' - prix:' + prix + ' - description:' + description + ' - image:' + str(
-        image)
-    flash(message, 'alert-success')
+    flash(u'Article ajouté : ' + nom, 'alert-success')
     return redirect('/admin/article/show')
 
 
 @admin_article.route('/admin/article/delete', methods=['GET'])
 def delete_article():
-    id_article=request.args.get('id_article')
+    id_article = request.args.get('id_article')
     mycursor = get_db().cursor()
-    sql = ''' requête admin_article_3 '''
-    mycursor.execute(sql, id_article)
-    nb_declinaison = mycursor.fetchone()
-    if nb_declinaison['nb_declinaison'] > 0:
-        message= u'il y a des declinaisons dans cet article : vous ne pouvez pas le supprimer'
-        flash(message, 'alert-warning')
-    else:
-        sql = ''' requête admin_article_4 '''
-        mycursor.execute(sql, id_article)
-        article = mycursor.fetchone()
-        print(article)
-        image = article['image']
 
-        sql = ''' requête admin_article_5  '''
-        mycursor.execute(sql, id_article)
-        get_db().commit()
-        if image != None:
-            os.remove('static/images/' + image)
+    # Vérifier s'il y a des lignes de commande liées
+    sql = "SELECT COUNT(*) AS nb FROM ligne_commande WHERE parfum_id = %s"
+    mycursor.execute(sql, (id_article,))
+    result = mycursor.fetchone()
+    if result['nb'] > 0:
+        flash(u'Cet article est lié à des commandes : vous ne pouvez pas le supprimer', 'alert-warning')
+        return redirect('/admin/article/show')
 
-        print("un article supprimé, id :", id_article)
-        message = u'un article supprimé, id : ' + id_article
-        flash(message, 'alert-success')
+    # Récupérer l'image avant suppression
+    sql = "SELECT photo AS image FROM parfum WHERE id_parfum = %s"
+    mycursor.execute(sql, (id_article,))
+    article = mycursor.fetchone()
 
+    sql = "DELETE FROM parfum WHERE id_parfum = %s"
+    mycursor.execute(sql, (id_article,))
+    get_db().commit()
+
+    if article and article['image']:
+        img_path = 'static/images/' + article['image']
+        if os.path.exists(img_path):
+            os.remove(img_path)
+
+    flash(u'Article supprimé, id : ' + str(id_article), 'alert-success')
     return redirect('/admin/article/show')
 
 
 @admin_article.route('/admin/article/edit', methods=['GET'])
 def edit_article():
-    id_article=request.args.get('id_article')
+    id_article = request.args.get('id_article')
     mycursor = get_db().cursor()
+
     sql = '''
-    requête admin_article_6    
+        SELECT id_parfum AS id_article, nom_parfum AS nom, prix_parfum AS prix,
+               stock, photo AS image, description, marque, type_parfum_id AS type_article_id
+        FROM parfum WHERE id_parfum = %s
     '''
-    mycursor.execute(sql, id_article)
+    mycursor.execute(sql, (id_article,))
     article = mycursor.fetchone()
-    print(article)
-    sql = '''
-    requête admin_article_7
-    '''
+
+    sql = "SELECT id_type_parfum AS id_type_article, type_parfum_libelle AS libelle FROM type_parfum ORDER BY type_parfum_libelle"
     mycursor.execute(sql)
     types_article = mycursor.fetchall()
 
-    # sql = '''
-    # requête admin_article_6
-    # '''
-    # mycursor.execute(sql, id_article)
-    # declinaisons_article = mycursor.fetchall()
-
-    return render_template('admin/article/edit_article.html'
-                           ,article=article
-                           ,types_article=types_article
-                         #  ,declinaisons_article=declinaisons_article
-                           )
+    return render_template('admin/article/edit_article.html',
+                           article=article,
+                           types_article=types_article)
 
 
 @admin_article.route('/admin/article/edit', methods=['POST'])
@@ -145,47 +134,61 @@ def valid_edit_article():
     type_article_id = request.form.get('type_article_id', '')
     prix = request.form.get('prix', '')
     description = request.form.get('description')
+    marque = request.form.get('marque', '')
+
+    # Récupérer l'image actuelle
+    sql = "SELECT photo AS image FROM parfum WHERE id_parfum = %s"
+    mycursor.execute(sql, (id_article,))
+    row = mycursor.fetchone()
+    image_nom = row['image'] if row else None
+
+    if image and image.filename:
+        if image_nom and os.path.exists(os.path.join('static/images/', image_nom)):
+            os.remove(os.path.join('static/images/', image_nom))
+        filename = 'img_upload_' + str(int(2147483647 * random())) + '.png'
+        image.save(os.path.join('static/images/', filename))
+        image_nom = filename
+
     sql = '''
-       requête admin_article_8
-       '''
-    mycursor.execute(sql, id_article)
-    image_nom = mycursor.fetchone()
-    image_nom = image_nom['image']
-    if image:
-        if image_nom != "" and image_nom is not None and os.path.exists(
-                os.path.join(os.getcwd() + "/static/images/", image_nom)):
-            os.remove(os.path.join(os.getcwd() + "/static/images/", image_nom))
-        # filename = secure_filename(image.filename)
-        if image:
-            filename = 'img_upload_' + str(int(2147483647 * random())) + '.png'
-            image.save(os.path.join('static/images/', filename))
-            image_nom = filename
-
-    sql = '''  requête admin_article_9 '''
-    mycursor.execute(sql, (nom, image_nom, prix, type_article_id, description, id_article))
-
+        UPDATE parfum
+        SET nom_parfum = %s, photo = %s, prix_parfum = %s,
+            type_parfum_id = %s, description = %s, marque = %s
+        WHERE id_parfum = %s
+    '''
+    mycursor.execute(sql, (nom, image_nom, prix, type_article_id, description, marque, id_article))
     get_db().commit()
-    if image_nom is None:
-        image_nom = ''
-    message = u'article modifié , nom:' + nom + '- type_article :' + type_article_id + ' - prix:' + prix  + ' - image:' + image_nom + ' - description: ' + description
-    flash(message, 'alert-success')
+
+    flash(u'Article modifié : ' + nom, 'alert-success')
     return redirect('/admin/article/show')
 
 
+@admin_article.route('/admin/article/stock/edit', methods=['POST'])
+def admin_article_stock_edit():
+    """Modification du stock d'un article depuis l'interface admin."""
+    mycursor = get_db().cursor()
+    id_article = request.form.get('id_article')
+    nouveau_stock = request.form.get('stock', '0')
 
+    if not id_article:
+        flash(u'Données manquantes pour la modification du stock', 'alert-warning')
+        return redirect('/admin/article/show')
 
+    sql = "UPDATE parfum SET stock = %s WHERE id_parfum = %s"
+    mycursor.execute(sql, (nouveau_stock, id_article))
+    get_db().commit()
 
+    flash(u'Stock mis à jour : ' + str(nouveau_stock) + ' unités', 'alert-success')
+    return redirect('/admin/article/show')
 
 
 @admin_article.route('/admin/article/avis/<int:id>', methods=['GET'])
 def admin_avis(id):
     mycursor = get_db().cursor()
-    article=[]
+    article = []
     commentaires = {}
-    return render_template('admin/article/show_avis.html'
-                           , article=article
-                           , commentaires=commentaires
-                           )
+    return render_template('admin/article/show_avis.html',
+                           article=article,
+                           commentaires=commentaires)
 
 
 @admin_article.route('/admin/comment/delete', methods=['POST'])
@@ -193,5 +196,4 @@ def admin_avis_delete():
     mycursor = get_db().cursor()
     article_id = request.form.get('idArticle', None)
     userId = request.form.get('idUser', None)
-
     return admin_avis(article_id)

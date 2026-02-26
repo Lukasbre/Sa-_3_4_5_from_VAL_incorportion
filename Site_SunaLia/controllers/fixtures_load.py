@@ -9,7 +9,6 @@ def fct_fixtures_load():
     db = get_db()
     cursor = db.cursor()
 
-    # --- Désactiver les FK et drop tables ---
     cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
     tables = [
         'ligne_panier', 'ligne_commande', 'commande', 'parfum',
@@ -132,7 +131,6 @@ def fct_fixtures_load():
 
     # --- Insertions ---
 
-    # Utilisateurs - IMPORTANT: Ces hash doivent être identiques
     # admin/admin, client/client, client2/client2
     cursor.execute("""
     INSERT INTO utilisateur(id_utilisateur, login, email, password, role, nom, est_actif) VALUES
