@@ -52,10 +52,10 @@
                         <a href="/client/article/show" class="btn btn-primary" >Continuer ma commande</a>
                     {% else %}
                     <form action="/client/panier/vider"  style="display: inline-block;"  method="post" >
-                        <button class="btn btn-primary"  > Effacer tout </button>
+                        <button class="btn btn-danger"  > Effacer tout </button>
                     </form>
                     <form action="/client/commande/valide"  style="display: inline-block;"  method="post" >
-                        <button class="btn btn-primary" > Passer ma commande </button>
+                        <button class="btn btn-success" > Passer ma commande </button>
                     </form>
                     {% endif %}
                     {% if prix_total %}

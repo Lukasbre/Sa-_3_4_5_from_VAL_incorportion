@@ -1,11 +1,11 @@
 {% extends 'admin/layout_admin.html' %}
 
 {% block title %}
-    <title>ajouter un article</title>
+    <title>Ajouter un article</title>
 {% endblock %}
 
 {% block body %}
-    <h2>ajouter un article</h2>
+    <h2>Ajouter un article</h2>
     <div class="row mt-5">
         <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 5px;" id="img_output" src="{{ url_for('static', filename = 'images/')}}no_photo.jpeg" alt="">
         <div class="w-25">
@@ -20,7 +20,7 @@
                     <input name="image" type="file" onchange="loadFile(event)"   class="form-control">
                 </label>
 
-                <label for="type_article_id">Type de l'article :
+                <label for="type_article_id">Type de parfum :
                     <select name="type_article_id" required class="form-select">
                         <option value="">Sélectionner un type d'article</option>
                         {% for type in types_article %}
@@ -28,14 +28,30 @@
                         {% endfor %}
                     </select>
                 </label>
-                <label for="description">description :
-                    <input name="description" type="text" class="form-control" >
+                <label for="genre_id" class="mt-2">Genre :
+                    <select name="genre_id" required class="form-select">
+                        <option value="">Sélectionner un genre</option>
+                        {% for genre in genres %}
+                             <option value="{{ genre.id_genre }}">{{ genre.nom_genre }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="marque" class="mt-2">Marque :
+                    <select name="marque" required class="form-select">
+                        <option value="">Sélectionner une marque</option>
+                        {% for m in marques %}
+                             <option value="{{ m }}">{{ m }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="description" class="w-100 mt-2">Description :
+                        <textarea name="description" class="form-control" rows="3"></textarea>
                 </label>
                 <label for="submit">
                     <input name="submit" type="submit" value="Ajouter" class="btn btn-primary mt-2">
                 </label>
             </form>
-        <a href="/admin/article/show"><button class="btn btn-secondary mt-2">annuler</button></a>
+        <a href="/admin/article/show"><button class="btn btn-secondary mt-2">Annuler</button></a>
         </div>
     </div>
 {% endblock %}

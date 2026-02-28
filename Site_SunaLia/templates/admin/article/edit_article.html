@@ -13,11 +13,11 @@ types_article : tableau de dictionnaires
 
 {% extends 'admin/layout_admin.html' %}
 {% block title %}
-    <title>modifier un article</title>
+    <title>Modifier un article</title>
 {% endblock %}
 
 {% block body %}
-    <h2>modifier un article</h2>
+    <h2>Modifier un article</h2>
         <div class="row mt-5">
         {%  if article.image is not none %}
             <img class="card-img-top rounded mx-4 d-block"  style="width:200px; height:200px; border: 1px solid black; padding: 25px;"   id="img_output" src="{{ url_for('static', filename = 'images/') }}{{ article.image}}"  alt="image  de {{ article.nom }}" >
@@ -36,20 +36,34 @@ types_article : tableau de dictionnaires
                     </label>                                         {# à modifier #}
 {#                https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask#}
 
-                <label for="type_article_id">Type de l'article :
+                <label for="type_article_id">Type de parfum :
                     <select name="type_article_id" class="form-select">
                             {% for type in types_article %}
                                  <option value="{{ type.id_type_article }}" {% if type.id_type_article == article.type_article_id %} selected {% endif %}> {{ type.libelle }}</option>
                             {% endfor %}
                         </select>
                     </label>
-                    <label for="description">Description :
-                        <input name="description" type="text" value="{{ article.description }}" class="form-control">
+                    <label for="genre_id" class="mt-2">Genre :
+                        <select name="genre_id" class="form-select">
+                            <option value="">Sélectionner un genre</option>
+                            {% for genre in genres %}
+                                <option value="{{ genre.id_genre }}" {% if genre.id_genre == article.genre_id %} selected {% endif %}>{{ genre.nom_genre }}</option>
+                            {% endfor %}
+                        </select>
                     </label>
-                    <button class="btn btn-primary mt-2">
-                                Modifier
-                    </button>
-                    <a class="btn btn-secondary mt-2" href="/admin/article/show"  role="button">retour</a>
+                    <label for="marque" class="mt-2">Marque :
+                        <select name="marque" class="form-select">
+                            <option value="">Sélectionner une marque</option>
+                            {% for m in marques %}
+                                <option value="{{ m }}" {% if m == article.marque %} selected {% endif %}>{{ m }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label for="description" class="w-100 mt-2">Description :
+                        <textarea name="description" class="form-control" rows="3">{{ article.description }}</textarea>
+                    </label>
+                    <button class="btn btn-primary mt-2">Modifier </button>
+                    <a class="btn btn-secondary mt-2" href="/admin/article/show"  role="button">Retour</a>
                 </form>
 
                 <div class="container-fluid " style="width: 1000px;">
@@ -89,12 +103,12 @@ types_article : tableau de dictionnaires
                                     <td style="display: flex">
                                         <a class="img-fluid" href="/admin/declinaison_article/delete?id_declinaison_article={{ declinaison_article.id_declinaison_article }}&amp;id_article={{ declinaison_article.article_id }}">
                                             <button class="btn btn-primary mx-1">
-                                                supprimer
+                                                Supprimer
                                             </button>
                                         </a>
                                         <a class="img-fluid" href="/admin/declinaison_article/edit?id_declinaison_article={{ declinaison_article.id_declinaison_article }}">
                                             <button class="btn btn-primary mx-1">
-                                                editer
+                                                Editer
                                             </button>
                                         </a>
                                     </td>

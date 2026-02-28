@@ -1,7 +1,10 @@
 <div class="m-2">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">SAE BDD 2026<span style="color:blue;">  Menu Client </span></a>
+    <a class="navbar-brand" href="/">
+      <img src="/static/logo.png" alt="Logo" style="height:50px; width:auto; margin-right:8px; vertical-align:middle;">
+      SunaLia<span style="color:blue;">  Menu Client </span>
+    </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
@@ -51,8 +54,9 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for categorie, message in messages %}
-        <div role="alert" class="alert {{ categorie }}">
+        <div role="alert" class="alert {{ categorie }} alert-dismissible fade show">
                Information : <strong>{{ message }}</strong>
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
         </div>
         {% endfor %}
     {% endif %}

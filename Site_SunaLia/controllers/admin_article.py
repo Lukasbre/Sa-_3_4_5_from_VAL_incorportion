@@ -10,22 +10,26 @@ from flask import request, render_template, redirect, flash
 
 from connexion_db import get_db
 
-admin_article = Blueprint('admin_article', __name__,
-                          template_folder='templates')
+admin_article = Blueprint('admin_article', __name__, template_folder='templates')
 
 
 @admin_article.route('/admin/article/show')
 def show_article():
     mycursor = get_db().cursor()
     sql = '''
-        SELECT p.id_parfum      AS id_article
-             , p.nom_parfum     AS nom
-             , p.prix_parfum    AS prix
+        SELECT p.id_parfum              AS id_article
+             , p.nom_parfum             AS nom
+             , p.prix_parfum            AS prix
              , p.stock
-             , p.photo          AS image
-             , p.marque         AS libelle
-             , p.type_parfum_id AS type_article_id
+             , p.photo                  AS image
+             , p.marque
+             , tp.type_parfum_libelle   AS libelle
+             , p.type_parfum_id         AS type_article_id
+             , g.nom_genre              AS libelle_genre
+             , p.genre_id               AS genre_id
         FROM parfum p
+        JOIN type_parfum tp ON p.type_parfum_id = tp.id_type_parfum
+        LEFT JOIN genre g ON p.genre_id = g.id_genre
         ORDER BY p.nom_parfum
     '''
     mycursor.execute(sql)
@@ -39,7 +43,16 @@ def add_article():
     sql = "SELECT id_type_parfum AS id_type_article, type_parfum_libelle AS libelle FROM type_parfum ORDER BY type_parfum_libelle"
     mycursor.execute(sql)
     types_article = mycursor.fetchall()
-    return render_template('admin/article/add_article.html', types_article=types_article)
+
+    sql_genre = "SELECT id_genre, nom_genre FROM genre ORDER BY nom_genre"
+    mycursor.execute(sql_genre)
+    genres = mycursor.fetchall()
+
+    sql_marques = "SELECT DISTINCT marque FROM parfum WHERE marque IS NOT NULL AND marque != '' ORDER BY marque"
+    mycursor.execute(sql_marques)
+    marques = [row['marque'] for row in mycursor.fetchall()]
+
+    return render_template('admin/article/add_article.html', types_article=types_article, genres=genres, marques=marques)
 
 
 @admin_article.route('/admin/article/add', methods=['POST'])
@@ -51,6 +64,7 @@ def valid_add_article():
     prix = request.form.get('prix', '')
     description = request.form.get('description', '')
     marque = request.form.get('marque', '')
+    genre_id = request.form.get('genre_id', None)
     stock = request.form.get('stock', 0)
     image = request.files.get('image', '')
 
@@ -61,14 +75,14 @@ def valid_add_article():
         filename = None
 
     sql = '''
-        INSERT INTO parfum(nom_parfum, photo, prix_parfum, type_parfum_id, description, marque, stock)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO parfum(nom_parfum, photo, prix_parfum, type_parfum_id, description, marque, stock, genre_id)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     '''
-    tuple_add = (nom, filename, prix, type_article_id, description, marque, stock)
+    tuple_add = (nom, filename, prix, type_article_id, description, marque, stock, genre_id)
     mycursor.execute(sql, tuple_add)
     get_db().commit()
 
-    flash(u'Article ajouté : ' + nom, 'alert-success')
+    flash(u'Article ajouté : ' + nom + ' | Marque : ' + str(marque) + ' | Prix : ' + str(prix) + ' € | Type id : ' + str(type_article_id), 'alert-success')
     return redirect('/admin/article/show')
 
 
@@ -94,12 +108,7 @@ def delete_article():
     mycursor.execute(sql, (id_article,))
     get_db().commit()
 
-    if article and article['image']:
-        img_path = 'static/images/' + article['image']
-        if os.path.exists(img_path):
-            os.remove(img_path)
-
-    flash(u'Article supprimé, id : ' + str(id_article), 'alert-success')
+    flash(u'Article supprimé, id : ' + str(id_article), 'alert-danger')
     return redirect('/admin/article/show')
 
 
@@ -110,7 +119,8 @@ def edit_article():
 
     sql = '''
         SELECT id_parfum AS id_article, nom_parfum AS nom, prix_parfum AS prix,
-               stock, photo AS image, description, marque, type_parfum_id AS type_article_id
+               stock, photo AS image, description, marque, type_parfum_id AS type_article_id,
+               genre_id
         FROM parfum WHERE id_parfum = %s
     '''
     mycursor.execute(sql, (id_article,))
@@ -120,9 +130,15 @@ def edit_article():
     mycursor.execute(sql)
     types_article = mycursor.fetchall()
 
-    return render_template('admin/article/edit_article.html',
-                           article=article,
-                           types_article=types_article)
+    sql_genre = "SELECT id_genre, nom_genre FROM genre ORDER BY nom_genre"
+    mycursor.execute(sql_genre)
+    genres = mycursor.fetchall()
+
+    sql_marques = "SELECT DISTINCT marque FROM parfum WHERE marque IS NOT NULL AND marque != '' ORDER BY marque"
+    mycursor.execute(sql_marques)
+    marques = [row['marque'] for row in mycursor.fetchall()]
+
+    return render_template('admin/article/edit_article.html', article=article, types_article=types_article, genres=genres, marques=marques)
 
 
 @admin_article.route('/admin/article/edit', methods=['POST'])
@@ -143,8 +159,6 @@ def valid_edit_article():
     image_nom = row['image'] if row else None
 
     if image and image.filename:
-        if image_nom and os.path.exists(os.path.join('static/images/', image_nom)):
-            os.remove(os.path.join('static/images/', image_nom))
         filename = 'img_upload_' + str(int(2147483647 * random())) + '.png'
         image.save(os.path.join('static/images/', filename))
         image_nom = filename
@@ -186,9 +200,7 @@ def admin_avis(id):
     mycursor = get_db().cursor()
     article = []
     commentaires = {}
-    return render_template('admin/article/show_avis.html',
-                           article=article,
-                           commentaires=commentaires)
+    return render_template('admin/article/show_avis.html', article=article, commentaires=commentaires)
 
 
 @admin_article.route('/admin/comment/delete', methods=['POST'])

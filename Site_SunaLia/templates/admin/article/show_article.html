@@ -10,19 +10,19 @@ articles (tableau de dictionnaires)
 {% extends 'admin/layout_admin.html' %}
 
 {% block title %}
-    <title>afficher les articles</title>
+    <title>Afficher les parfums</title>
 {% endblock %}
 
 {% block body %}
-<h3>Article</h3>
-<a  class="btn btn-outline-success" href="/admin/article/add">Ajouter un article</a>
+<h3>Parfum</h3>
+<a  class="btn btn-outline-success" href="/admin/article/add">Ajouter un parfum</a>
 <br><br>
 {#{{ articles }}#}
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th>nom</th><th>id</th><th>type article (id)</th><th>prix</th><th>stock</th>
-            <th>nouveaux avis</th><th>nb déclinaisons</th><th>image</th><th>opération</th>
+            <th>Nom</th><th>ID</th><th>Type de parfum (id)</th><th>Genre (id)</th><th>Marque</th><th>Prix</th><th>Stock</th>
+            <th>Nouveaux avis</th><th>NB déclinaisons</th><th>Image</th><th>Opération</th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +31,21 @@ articles (tableau de dictionnaires)
            <tr>
                   <td>{{ ligne.nom }}</td>
                   <td>{{ ligne.id_article }}</td>
-                  <td><span style="color: red">{{ ligne.libelle }}</span> ({{ ligne.type_article_id }})</td>
+                  <td><span style="color: red">{{ ligne['libelle'] }}</span> ({{ ligne['type_article_id'] }})</td>
+                  <td>
+                      {% if ligne.libelle_genre is defined and ligne.libelle_genre %}
+                          <span style="color: red">{{ ligne['libelle_genre'] }}</span> ({{ ligne['genre_id'] }})
+                      {% else %}
+                          <span class="text-muted">ND</span>
+                      {% endif %}
+                  </td>
+                  <td>
+                      {% if ligne.marque is defined and ligne.marque %}
+                          {{ ligne.marque }}
+                      {% else %}
+                          <span class="text-muted">ND</span>
+                      {% endif %}
+                  </td>
                   <td>{#{ ligne.prix }#}  {{  "{:,.2f} €".format(ligne.prix) }}</td>
                   <td>
                   {% if ligne.stock is defined %}
@@ -42,10 +56,10 @@ articles (tableau de dictionnaires)
                                 <span style="color: #fd7e14">(déclinaison(s) en rupture)</span>
                             {% endif %}
                         {% else %}
-                            <strong class="text-muted">article momentanément indisponible</strong>
+                            <strong class="text-muted">Article momentanément indisponible</strong>
                         {% endif %}
                      {% else %}
-                             <strong class="text-muted">déclinaison ND</strong>
+                             <strong class="text-muted">Déclinaison ND</strong>
                      {% endif %}
                   {% else %}
                       ND
@@ -71,17 +85,17 @@ articles (tableau de dictionnaires)
                          decli ND
                       {% endif %}
                   </td>
-                  <td>{{ ligne.image }}
+                  <td>
                         {%  if ligne.image is not none %}
-                            <img style="width:40px;height:40px"  src="{{ url_for('static', filename = 'images/' + ligne['image']) }}"  alt="image  de {{ ligne.nom }}" >
+                            <img style="width:80px;height:80px"  src="{{ url_for('static', filename = 'images/' + ligne['image']) }}"  alt="Image  de {{ ligne.nom }}" >
                         {% else %}
-                            <img style="width:40px;height:40px"   src="{{ url_for('static', filename='images/no_photo.jpeg')}}"  alt="pas d image" >
+                            <img style="width:80px;height:80px"   src="{{ url_for('static', filename='images/no_photo.jpeg')}}"  alt="Pas d'image" >
                         {% endif %}
                   </td>
                   <td>
-                      <a  class="btn btn-outline-danger" href="/admin/article/delete?id_article={{ ligne.id_article }}" >supprimer</a>
-                      <a  class="btn btn-outline-success" href="/admin/article/edit?id_article={{ ligne.id_article }}">editer</a>
-                      <a  class="btn btn-outline-warning" href="/admin/article/commentaires?id_article={{ ligne.id_article }}">commentaires</a>
+                      <a  class="btn btn-outline-danger" href="/admin/article/delete?id_article={{ ligne.id_article }}" >Supprimer</a>
+                      <a  class="btn btn-outline-success" href="/admin/article/edit?id_article={{ ligne.id_article }}">Editer</a>
+                      <a  class="btn btn-outline-warning" href="/admin/article/commentaires?id_article={{ ligne.id_article }}">Commentaires</a>
                       <form action="/admin/article/stock/edit" method="post" style="display:inline-block; margin-top:4px;">
                           <input type="hidden" name="id_article" value="{{ ligne.id_article }}">
                           <input type="number" name="stock" value="{{ ligne.stock if ligne.stock is not none else 0 }}" min="0" style="width:60px;" class="form-control form-control-sm d-inline-block">
@@ -93,11 +107,10 @@ articles (tableau de dictionnaires)
     {% else %}
             <tr>
                   <td>
-                      pas d'article
+                      Pas d'article
                   </td>
            </tr>
     {% endif %}
     </tbody>
 </table>
 {% endblock %}
-
