@@ -2,7 +2,7 @@
 
 Projet réalisé dans le cadre des **SAE S1.03, S1.04 et S1.05**.
 
-Le site est accessible [SunaLia.com](https://sa-345fromvalincorportion-production.up.railway.app/).
+Le site est accessible [SunaLia.com](https://sa-345fromvalincorportion-production.up.railway.app/)
 
 ## Présentation du projet
 
