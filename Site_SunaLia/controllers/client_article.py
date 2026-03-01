@@ -61,6 +61,22 @@ def client_article_show():
             sql += f" AND p.marque IN ({placeholders})"
             list_param.extend(filter_types)
 
+    # Filtre par genre (depuis session)
+    if session.get('filter_genres'):
+        filter_genres = session['filter_genres']
+        if filter_genres and len(filter_genres) > 0:
+            placeholders = ', '.join(['%s'] * len(filter_genres))
+            sql += f" AND p.genre_id IN ({placeholders})"
+            list_param.extend(filter_genres)
+
+    # Filtre par types de parfum (depuis session)
+    if session.get('filter_types_parfum'):
+        filter_types_parfum = session['filter_types_parfum']
+        if filter_types_parfum and len(filter_types_parfum) > 0:
+            placeholders = ', '.join(['%s'] * len(filter_types_parfum))
+            sql += f" AND p.type_parfum_id IN ({placeholders})"
+            list_param.extend(filter_types_parfum)
+
     sql += " ORDER BY p.nom_parfum"
 
     # Exécution de la requête
@@ -80,6 +96,22 @@ def client_article_show():
     '''
     mycursor.execute(sql_marques)
     types_article = mycursor.fetchall()
+
+    sql_genres = '''
+                 SELECT id_genre, nom_genre
+                 FROM genre
+                 ORDER BY nom_genre \
+                 '''
+    mycursor.execute(sql_genres)
+    genres = mycursor.fetchall()
+
+    sql_types_parfum = '''
+        SELECT id_type_parfum, type_parfum_libelle
+        FROM type_parfum
+        ORDER BY type_parfum_libelle
+    '''
+    mycursor.execute(sql_types_parfum)
+    types_parfum = mycursor.fetchall()
 
     # 3. Récupération du panier
     sql_panier = '''
@@ -117,4 +149,11 @@ def client_article_show():
         result = mycursor.fetchone()
         prix_total = result['prix_total'] if result and result['prix_total'] is not None else 0
 
-    return render_template('client/boutique/panier_article.html', articles=articles, articles_panier=articles_panier, prix_total=prix_total, items_filtre=types_article, types_articles=types_article)
+    return render_template('client/boutique/panier_article.html',
+                           articles=articles,
+                           articles_panier=articles_panier,
+                           prix_total=prix_total,
+                           items_filtre=types_article,
+                           types_articles=types_article,
+                           genres=genres,
+                           types_parfum=types_parfum)

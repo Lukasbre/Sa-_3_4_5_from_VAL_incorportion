@@ -11,10 +11,10 @@ def get_db():
     if db is None:
         # Utilisation de os.getenv pour lire le fichier .env
         db = pymysql.connect(
-            host=os.environ.get("HOST"),
-            user=os.environ.get("LOGIN"),
-            password=os.environ.get("PASSWORD"),
-            database=os.environ.get("DATABASE"),
+            host="192.168.128.152",
+            user="adam",
+            password="azerty",
+            database="bdd_sae",
             charset='utf8mb4',
             cursorclass=pymysql.cursors.DictCursor
         )

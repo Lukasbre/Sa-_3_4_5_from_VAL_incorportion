@@ -104,7 +104,6 @@ def client_panier_vider():
 
 @client_panier.route('/client/panier/delete/line', methods=['POST'])
 def client_panier_delete_line():
-    """Supprime entièrement la ligne de l'article dans le panier (bouton Supprimer)"""
     mycursor = get_db().cursor()
     id_client = session['id_user']
     id_article = request.form.get('id_article')
@@ -129,10 +128,12 @@ def client_panier_delete_line():
 
 @client_panier.route('/client/panier/filtre', methods=['POST'])
 def client_panier_filtre():
-    filter_word = request.form.get('filter_word', None)
-    filter_prix_min = request.form.get('filter_prix_min', None)
-    filter_prix_max = request.form.get('filter_prix_max', None)
+    filter_word = request.form.get('filter_word')
+    filter_prix_min = request.form.get('filter_prix_min')
+    filter_prix_max = request.form.get('filter_prix_max')
     filter_types = request.form.getlist('filter_types')
+    session['filter_genres'] = request.form.getlist('filter_genres')
+    session['filter_types_parfum'] = request.form.getlist('filter_types_parfum')
 
     session['filter_word'] = filter_word
     session['filter_prix_min'] = filter_prix_min
@@ -148,4 +149,6 @@ def client_panier_filtre_suppr():
     session.pop('filter_prix_min', None)
     session.pop('filter_prix_max', None)
     session.pop('filter_types', None)
+    session.pop('filter_genres', None)
+    session.pop('filter_types_parfum', None)
     return redirect('/client/article/show')

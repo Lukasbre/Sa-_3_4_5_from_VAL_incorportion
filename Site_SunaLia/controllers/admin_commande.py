@@ -25,7 +25,7 @@ def admin_commande_show():
                , c.etat_id
                , e.libelle
                , u.login
-               , COUNT(lc.parfum_id) AS nbr_articles
+               , SUM(lc.quantite) AS nbr_articles
                , SUM(lc.prix * lc.quantite) AS prix_total
         FROM commande c
         INNER JOIN etat e ON e.id_etat = c.etat_id
