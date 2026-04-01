@@ -16,16 +16,16 @@ sed -i "s/user=.*/user=\"${LOGIN}\",/g" connexion_db.py
 sed -i "s/password=.*/password=\"${PASSWORD}\",/g" connexion_db.py
 sed -i "s/database=.*/database=\"${DATABASE}\",/g" connexion_db.py
 
-projet=$(ls -l sae_sql.sql)
+projet=$(ls -l sae_sql_2.sql)
 if [ $? -ne 0 ]
     then
-    echo -e "\033[0;31m \n* pas de fichier sae_sql.sql \033[0m"
+    echo -e "\033[0;31m \n* pas de fichier sae_sql_2.sql \033[0m"
     nb_fic_sql=$(ls -l *.sql | wc -l)
     if [ "${nb_fic_sql}" -eq "1" ]
     then
         NOM_FIC_SQL=$(echo *.sql)
-        cp "$NOM_FIC_SQL" sae_sql.sql
-        echo -e "\033[0;32m \n* fichier copier $NOM_FIC_SQL sae_sql.sql \033[0m"
+        cp "$NOM_FIC_SQL" sae_sql_2.sql
+        echo -e "\033[0;32m \n* fichier copier $NOM_FIC_SQL sae_sql_2.sql \033[0m"
     else
         echo -e "\033[0;31m \n* pas de fichier ****.sql \033[0m"
         exit 2
@@ -34,7 +34,7 @@ fi
 
 
 mysql --user=${LOGIN} --password=${PASSWORD} --host=${HOST} -e "DROP DATABASE IF EXISTS ${DATABASE}; CREATE DATABASE ${DATABASE};"
-mysql --user=${LOGIN} --password=${PASSWORD} --host=${HOST} -e "USE ${DATABASE}; SOURCE sae_sql.sql;"
+mysql --user=${LOGIN} --password=${PASSWORD} --host=${HOST} -e "USE ${DATABASE}; SOURCE sae_sql2.sql;"
 
 
 echo "mysql --user=${LOGIN} --password=${PASSWORD} --host=${HOST} ${DATABASE}" > connect.sh
